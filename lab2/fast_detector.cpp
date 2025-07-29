@@ -2,13 +2,15 @@
 #include <string>
 #include <opencv2/opencv.hpp>
 #include <opencv2/features2d.hpp>
+#include <filesystem>
 
 int main() {
     // parameters
     int threshold = 20;
     bool nonmaxSuppression = true;
     // Load the image
-    const std::string image_path = "../data/img0.png";
+    std::cout << "Current working dir: " << std::filesystem::current_path() << std::endl;
+    const std::string image_path = "img0.png";
     cv::Mat image = cv::imread(image_path, cv::IMREAD_GRAYSCALE);
     if (image.empty()) {
         std::cerr << "Error loading image: " << image_path << std::endl;
