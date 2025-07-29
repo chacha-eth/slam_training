@@ -1,33 +1,38 @@
 #include <iostream>
-#include <string>
-#include <opencv2/opencv.hpp>
-#include <opencv2/features2d.hpp>
-
-int main() {
-    int num_features=1000;
-    // Load a single image
-    const std::string image_path = "../data/img0.png";
+#include "opencv2/core.hpp"
+#ifdef HAVE_OPENCV_XFEATURES2D
+#include "opencv2/highgui.hpp"
+#include "opencv2/features2d.hpp"
+#include "opencv2/xfeatures2d.hpp"
+using namespace cv;
+using namespace cv::xfeatures2d;
+using std::cout;
+using std::endl;
+int main()
+{
+    const std::string image_path = "img0.png";
     cv::Mat image = cv::imread(image_path, cv::IMREAD_GRAYSCALE);
     if (image.empty()) {
         std::cerr << "Error loading image: " << image_path << std::endl;
         return -1;
     }
-
-    cv::imshow("Original Image", image);
-    cv::waitKey(0);
-
-    // Create SIFT detector
-    auto sift = cv::SIFT::create(num_features);
-
-    // Detect keypoints 
-    std::vector<cv::KeyPoint> keypoints;
-    sift->detect(image, keypoints);
-
-    // Draw and display keypoints
-    cv::Mat image_with_keypoints;
-    cv::drawKeypoints(image, keypoints, image_with_keypoints);
-    cv::imshow("SIFT Keypoints", image_with_keypoints);
-    cv::waitKey(0);
-
+    //-- Step 1: Detect the keypoints using SURF Detector
+    int minHessian = 400;
+    Ptr<SURF> detector = SURF::create( minHessian );
+    std::vector<KeyPoint> keypoints;
+    detector->detect( image, keypoints );
+    //-- Draw keypoints
+    Mat img_keypoints;
+    drawKeypoints( image, keypoints, img_keypoints );
+    //-- Show detected (drawn) keypoints
+    imshow("SURF Keypoints", img_keypoints );
+    waitKey();
     return 0;
 }
+#else
+int main()
+{
+    std::cout << "This tutorial code needs the xfeatures2d contrib module to be run." << std::endl;
+    return 0;
+}
+#endif

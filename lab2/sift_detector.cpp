@@ -6,13 +6,12 @@
 int main() {
     int num_features=1000;
     // Load a single image
-    const std::string image_path = "../data/img0.png";
+    const std::string image_path = "img0.png";
     cv::Mat image = cv::imread(image_path, cv::IMREAD_GRAYSCALE);
     if (image.empty()) {
         std::cerr << "Error loading image: " << image_path << std::endl;
         return -1;
     }
-
     cv::imshow("Original Image", image);
     cv::waitKey(0);
 
