@@ -27,7 +27,7 @@ message(STATUS "    include path: ${OpenCV_INCLUDE_DIRS}")
 # add lab directories
 # add_subdirectory(lab1)
 add_subdirectory(lab2)
-# add_subdirectory(lab3)
+add_subdirectory(lab3)
 # add_subdirectory(lab4)
 # add_subdirectory(lab5)
 
